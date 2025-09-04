@@ -100,12 +100,49 @@ export function main() {
             case 4:
                 console.log(colors.fg.whitestrong,
                     "\n\nAtualizar dados da Conta\n\n", colors.reset);
+                console.log("Digite o número da conta: ");
+                numero = readlinesync.questionInt("");
+
+                let conta = contas.buscarNoArray(numero);
+
+                if (conta != null) {
+                    console.log("Digite o número da agência: ");
+                    agencia = readlinesync.questionInt("");
+
+                    console.log("Digite o nome do titular da conta: ");
+                    titular = readlinesync.question("");
+
+                    tipo = conta.tipo;
+
+                    console.log("\nDigite o saldo da conta(R$): ");
+                    saldo = readlinesync.questionFloat("")
+
+                    switch (tipo) {
+                        case 1:
+                            console.log("Digite o Limite da Conta (R$): ");
+                            limite = readlinesync.questionFloat("");
+                            contas.atualizar(
+                                new ContaCorrente(contas.gerarNumero(), agencia, tipo, titular,
+                                    saldo, limite));
+                            break;
+                        case 2:
+                            console.log("Digite o Dia do aniversário da Conta Poupança: ");
+                            aniversario = readlinesync.questionInt("");
+                            contas.atualizar(new ContaPoupanca(contas.gerarNumero(), agencia,
+                                tipo, titular, saldo, aniversario));
+                            break;
+                    }
+                }
 
                 keyPress()
                 break;
             case 5:
                 console.log(colors.fg.whitestrong,
                     "\n\nApagar uma Conta\n\n", colors.reset);
+
+                console.log("Digite o número da Conta: ");
+                numero = readlinesync.questionInt("");
+                contas.deletar(numero);
 
                 keyPress()
                 break;
