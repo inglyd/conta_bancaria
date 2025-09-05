@@ -25,13 +25,46 @@ export class ContaController implements ContaRepository {
                 " não foi encontrada!", colors.reset);
     }
     sacar(numero: number, valor: number): void {
+        let conta = this.buscarNoArray(numero);
 
+        if (conta != null) {
+
+            if (conta.sacar(valor) == true)
+
+                console.log(colors.fg.green, "\nO saque da conta numero: " + numero +
+                    " foi efetuado com sucesso!", colors.reset);
+        } else
+            console.log(colors.fg.red, "\nA Conta numero: " + numero +
+                " não foi encontrada!", colors.reset);
     }
     depositar(numero: number, valor: number): void {
+        let conta = this.buscarNoArray(numero);
 
+        if (conta != null) {
+
+            conta.depositar(valor);
+
+            console.log(colors.fg.green, "\nO depósito da conta numero: " + numero +
+                " foi efetuado com sucesso!", colors.reset);
+        } else
+            console.log(colors.fg.red, "\nA Conta numero: " + numero +
+                " não foi encontrada!", colors.reset);
     }
     transferir(numeroOrigem: number, numeroDestino: number, valor: number): void {
+        let contaOrigem = this.buscarNoArray(numeroOrigem);
+        let contaDestino = this.buscarNoArray(numeroDestino);
 
+        if (contaOrigem != null && contaDestino != null) {
+            if (contaOrigem.sacar(valor) == true) {
+                contaDestino.depositar(valor);
+                console.log(colors.fg.green, "\nA Transferência da Conta numero: " + numeroOrigem +
+                    " para a Conta numero: " + numeroDestino + " foi efetuada com sucesso!",
+                    colors.reset);
+            }
+        } else
+            console.log(colors.fg.red, "\nA Conta numero: " + numeroOrigem +
+                " e/ou a Conta numero: " + numeroDestino + " não foram encontradas!",
+                colors.reset);
     }
 
     private listaContas: Array<Conta> = new Array<Conta>();
